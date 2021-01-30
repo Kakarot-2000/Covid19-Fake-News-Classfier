@@ -1,0 +1,10 @@
+numpy
+pandas
+sklearn
+flask
+nltk
+flask_script
+flask_migrate
+psycopg2
+gunicorn
+flask_sqlalchemy
