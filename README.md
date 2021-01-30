@@ -5,9 +5,8 @@ A web app using Flask backend to use NLP to detect fake news on Covid19. Achieve
 1. Static folder: This folder contains CSS files.
 2. Templates folder: This folder contains the HTML files. These HTML files will be rendered on the web browser.
 3. app.py: This file contains the Flask specific code.
-4. lstm_model.py: This file contains the original code used to train the model.
-5. model2.sav : trained model
-6. usersDB.sqlite3 : Database File containing details of registered Users.
+4. model2.sav : trained model
+5. usersDB.sqlite3 : Database File containing details of registered Users.
 
 **To Run The Application on localhost :**
 - Change current directory to the directory containing the files.
