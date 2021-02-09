@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% block title2%} Log In {% endblock%}
 {% block content %}
-		<form action="{{url_for("handleUser")}}" method="POST">
-		<p>Enter Your Name Here</p> 
-        <p><input type="text" name="user_name" /></p>
-		<p><input type="text" name="email" /></p>
-		<br/>
-		<p><input type="submit" value="Log In"></p>
+	<form action="{{url_for("handleUser")}}" method="POST">
+		<div class="mb-3">
+		  <label for="exampleInputText1" class="form-label">Enter Your Username</label>
+		  <input type="text" class="form-control" id="exampleInputText1" aria-describedby="emailHelp"  name="user_name" >
+		</div>
+		<div class="mb-3">
+			<label for="exampleInputEmail1" class="form-label">Email address</label>
+			<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" >
+		</div>
+		<button type="submit" class="btn btn-primary">Log In</button>
+	  </form>
 
-	</form>
-		
 {% endblock %}
