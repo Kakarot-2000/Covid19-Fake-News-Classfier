@@ -17,3 +17,8 @@ pip install -r requirements.txt
 - Run 'python app.py' on cmd. This will now run your python application using Flask on your local machine. 
 - Enter the local host http address into browser.
 Thats it ^_^
+
+**Screenshots**
+![Home Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/master/screenshots/Screenshot%20(154).png?raw=true)
+![Predict Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/master/screenshots/Screenshot%20(156).png?raw=true)
+![Results Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/master/screenshots/Screenshot%20(157).png?raw=true)
