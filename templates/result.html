@@ -1,10 +1,10 @@
 {% extends "base.html"%}
-{% block title2%} <h2 class="text-center">Result</h2> {% endblock%}
+{% block title2%} Result {% endblock%}
 </br>
 {% block content%}
 	{% if prediction == 1%}
-	<h2 style="color:red;" class="text-center">True</h2>
+	<h2 style="color:red;">True</h2>
 	{% elif prediction == 0%}
-	<h2 style="color:blue;" class="text-center">Fake</h2>
+	<h2 style="color:blue;">False</h2>
 	{% endif %}
 {% endblock%}
