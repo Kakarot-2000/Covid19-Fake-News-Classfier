@@ -23,6 +23,7 @@ Thats it ^_^
 **Screenshots**
 
 
-![Home Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/master/screenshots/Screenshot%20(154).png?raw=true)
-![Predict Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/master/screenshots/Screenshot%20(156).png?raw=true)
-![Results Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/master/screenshots/Screenshot%20(157).png?raw=true)
+![Home Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/ux-changes/screenshots/Screenshot%20(341).png?raw=true)
+![Login Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/ux-changes/screenshots/Screenshot%20(342).png?raw=true)
+![Predict Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/ux-changes/screenshots/Screenshot%20(339).png?raw=true)
+![Results Page](https://github.com/Kakarot-2000/Covid19-Fake-News-Classfier/blob/ux-changes/screenshots/Screenshot%20(340).png?raw=true)
