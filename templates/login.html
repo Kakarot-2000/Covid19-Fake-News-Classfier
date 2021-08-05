@@ -3,10 +3,10 @@
 {% block content %}
 		<div class="login">
 			<form action="{{url_for("handleUser")}}" method="POST">
-				<label for="city">Enter your username: </label>
-				<input type="text" name="user_name">
-				<label for="city">Enter your email: </label>
-				<input type="text" name="email"></br>
+				<label for="user_name">Enter your username: </label>
+				<input type="text" name="user_name" required>
+				<label for="email">Enter your email: </label>
+				<input type="email" name="email" required></br>
 				<input type="submit" value="Log In">
 			</form>
 	</div>
