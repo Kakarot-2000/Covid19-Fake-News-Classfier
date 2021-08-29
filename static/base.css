@@ -24,11 +24,12 @@
     margin-left: 2em;
 }
 .login input[type=text] {
-    width: 90%;
+    width: 30%;
     border: 1px solid #707070;
     box-sizing: border-box;
     border-radius: .5em;
     padding: 0.7em 2em 0em 2em;
+    display: inline-block;
 }
 .content textarea {
     border-radius: .25em;
