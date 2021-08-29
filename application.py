@@ -1,77 +1,84 @@
+from flask import Flask, redirect, url_for, flash, render_template, request, session
+from flask_sqlalchemy import SQLAlchemy
+from datetime import timedelta
+import re
+from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 import pandas as pd
 import pickle
 import sklearn
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import BernoulliNB,MultinomialNB
+from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import confusion_matrix
 from nltk.corpus import stopwords
 STOPWORDS = set(stopwords.words('english'))
-from sklearn.feature_extraction.text import CountVectorizer
-import re
-from flask import Flask,redirect,url_for,flash,render_template,request,session
-from datetime import timedelta
-from flask_sqlalchemy import SQLAlchemy
 
-#Flask object instantiation
-app=Flask(__name__)
-db=SQLAlchemy(app)
-app.secret_key='ztyp1x-1234'
-app.permanent_session_lifetime=timedelta(minutes=100)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///usersDB.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+# Flask object instantiation
+app = Flask(__name__)
+db = SQLAlchemy(app)
+app.secret_key = 'ztyp1x-1234'
+app.permanent_session_lifetime = timedelta(minutes=100)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///usersDB.sqlite3'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-class users(db.Model) :
-    slno=db.Column("slno",db.Integer,primary_key=True)
-    name=db.Column("name",db.String(100))
-    email=db.Column("email",db.String(100))
-    def __init__(self,name,email):
-        self.name=name
-        self.email=email
+class users(db.Model):
+    slno = db.Column("slno", db.Integer, primary_key=True)
+    name = db.Column("name", db.String(100))
+    email = db.Column("email", db.String(100))
 
-#decorator to map URL function
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+
+# decorator to map URL function
+
+
 @app.route('/')
 def home():
-    #render_template() renders the template
+    # render_template() renders the template
     return render_template('home.html')
+
 
 @app.route('/admin')
 def admin():
-    if "user" not in session :
+    if "user" not in session:
         return redirect(url_for("login"))
-    if session["user"]=="admin" :
-        return render_template("admin.html",values=users.query.all())
-    else :
+    if session["user"] == "admin":
+        return render_template("admin.html", values=users.query.all())
+    else:
         flash("Not Authorized!")
         return redirect(url_for("user"))
 
-@app.route('/handle_user',methods=["POST"])     #only POST method is allowed
+
+@app.route('/handle_user', methods=["POST"])  # only POST method is allowed
 def handleUser():
-    if request.method=="POST":
-        name=request.form["user_name"]
-        email=request.form["email"]
-        found_users=users.query.filter_by(name=name).first()
-        if found_users==None:
-            user_object=users(name,email)
+    if request.method == "POST":
+        name = request.form["user_name"]
+        email = request.form["email"]
+        found_users = users.query.filter_by(name=name).first()
+        if found_users == None:
+            user_object = users(name, email)
             db.session.add(user_object)
             db.session.commit()
             flash("Saved into db!")
-        session["user"]=name
-        session["email"]=email
-        session.permanent=True
+        session["user"] = name
+        session["email"] = email
+        session.permanent = True
         return redirect(url_for("user"))
-    else :
+    else:
         return redirect(url_for("home"))
+
 
 @app.route('/user')
 def user():
-    if "user" in session :
-        return render_template("user.html",name=session["user"])    
-    else :
+    if "user" in session:
+        return render_template("user.html", name=session["user"])
+    else:
         flash("Not Signed In!")
         return redirect(url_for("loginUser"))
+
 
 @app.route('/login')
 def loginUser():
@@ -80,30 +87,33 @@ def loginUser():
         return redirect(url_for("user"))
     return render_template("login.html")
 
+
 @app.route('/logout')
 def logoutUser():
-    if "user" in session :
-        temp=session["user"]
+    if "user" in session:
+        temp = session["user"]
         session.pop("user")
         flash("{} Signed Out".format(temp))
         return redirect(url_for("home"))
-    else :
+    else:
         flash("Not Signed In!")
         return redirect(url_for("loginUser"))
 
+
 @app.route('/predict_input')
 def inputForm():
-    if "user" not in session :
+    if "user" not in session:
         flash("Not Signed In!")
         return redirect(url_for("user"))
-    else :
+    else:
         return render_template("predict.html")
 
-@app.route('/predict',methods=['POST'])
+
+@app.route('/predict', methods=['POST'])
 def predict():
     if "user" not in session:
         flash("Not Signed In!")
-        return redirect(url_for("login"))    
+        return redirect(url_for("login"))
     '''
     df1=pd.read_csv('data.csv')
     #print(df1.head(),'\n',df1.columns)
@@ -184,31 +194,32 @@ def predict():
 
 
     '''
-    #loading saved model
+    # loading saved model
     filename = 'model2.sav'
     saved_clf = pickle.load(open(filename, 'rb'))
-    saved_vectorizer=pickle.load(open('vectorizer_saved.pickle','rb'))
-    
+    saved_vectorizer = pickle.load(open('vectorizer_saved.pickle', 'rb'))
+
     #print(saved_clf.score(x_test, y_test))
 
-    #POST method transports the form data to the server in the message body
-    if request.method=='POST':
-        text=request.form['message']
-        #preprocessing input
-        temp=re.sub('[^a-zA-Z]',' ',text)
-        temp=(temp.lower()).split()
-        temp=[word for word in temp if (word not in set(stopwords.words('english')))]
-        temp=' '.join(temp)
-        ls=[temp]
-        val=saved_vectorizer.transform(ls)
-        res=saved_clf.predict(val)
-        print("RES : ",res)
-    return render_template('result.html',prediction=res)
+    # POST method transports the form data to the server in the message body
+    if request.method == 'POST':
+        text = request.form['message']
+        # preprocessing input
+        temp = re.sub('[^a-zA-Z]', ' ', text)
+        temp = (temp.lower()).split()
+        temp = [word for word in temp if (
+            word not in set(stopwords.words('english')))]
+        temp = ' '.join(temp)
+        ls = [temp]
+        val = saved_vectorizer.transform(ls)
+        res = saved_clf.predict(val)
+        print("RES : ", res)
+    return render_template('result.html', prediction=res)
 
-#run() makes sure to run only app.py on the server when this script is executed by the Python interpreter
+# run() makes sure to run only app.py on the server when this script is executed by the Python interpreter
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     db.create_all()
-    #debug==True activates the Flask debugger and provides detailed error messages
+    # debug==True activates the Flask debugger and provides detailed error messages
     app.run(debug=True)
-
